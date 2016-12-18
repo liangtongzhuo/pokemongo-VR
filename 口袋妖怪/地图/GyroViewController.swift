@@ -45,7 +45,7 @@ class GyroViewController: UIViewController {
         // 设置名字
         let nameLabel = UILabel(frame: CGRect(x: 0, y: 0 , width: 200, height: 50))
         nameLabel.center = CGPoint(x: image.center.x, y: image.center.y-130)
-        nameLabel.textAlignment = NSTextAlignment.Center
+        nameLabel.textAlignment = NSTextAlignment.center
         nameLabel.backgroundColor = UIColor(white: 0, alpha: 0.2)
         nameLabel.font = UIFont(name: "", size: 20)
         nameLabel.textColor = UIColor(white: 1, alpha: 1)
@@ -54,14 +54,14 @@ class GyroViewController: UIViewController {
         nameLabel.clipsToBounds = true
 
         
-        mask.userInteractionEnabled = false
+        mask.isUserInteractionEnabled = false
         mask.addSubview(nameLabel)
         //按钮
         chongwuBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
         chongwuBtn.center = CGPoint(x: view.bounds.width/2, y: view.bounds.height-100)
 //        chongwuBtn.addTarget(self, action: #selector(lick), forControlEvents: UIControlEvents.TouchUpInside)
-        chongwuBtn.setImage(UIImage(named: "11111"), forState: UIControlState.Normal)
-        chongwuBtn.userInteractionEnabled = false
+        chongwuBtn.setImage(UIImage(named: "11111"), for: UIControlState())
+        chongwuBtn.isUserInteractionEnabled = false
         view.addSubview(chongwuBtn)
         
         //初始化指南针位置
@@ -79,7 +79,7 @@ class GyroViewController: UIViewController {
 extension GyroViewController: CLLocationManagerDelegate {
     
     // 已经更新到用户设备朝向时调用 左右定位
-    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         
         // magneticHeading : 距离磁北方向的角度
         // trueHeading : 北方
@@ -97,9 +97,9 @@ extension GyroViewController: CLLocationManagerDelegate {
         
         
         // 反向旋转图片(弧度)
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3, animations: {
             self.mask.center.x = x
-        }
+        }) 
         
         print(mask.center.x)
 
@@ -112,21 +112,24 @@ extension GyroViewController: CLLocationManagerDelegate {
         ///获取加速度
         mgr.accelerometerUpdateInterval = 1/20
         weak var weakSelf = self
-        mgr.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue()) { (cma:CMAccelerometerData?, error:NSError?) in
+        mgr.startAccelerometerUpdates(to: OperationQueue.main, withHandler: { (cma:CMAccelerometerData?, error:NSError?) ->() in
             
             
-            let y = UIScreen.mainScreen().bounds.height / 2 + (UIScreen.mainScreen().bounds.height-100) * CGFloat(cma!.acceleration.z)
+            let y = UIScreen.main.bounds.height / 2 + (UIScreen.main.bounds.height-100) * CGFloat(cma!.acceleration.z)
             ///不抖动
             if y > weakSelf!.i+8 || y < weakSelf!.i-8 {
                 
-                UIView.animateWithDuration(0.3) {
+                UIView.animate(withDuration: 0.3, animations: {
                     weakSelf!.mask.center.y = y + 300// 向下移动，感觉在地上
-                }
+                }) 
                 weakSelf!.i = y
                 
             }
             
-        }
+        } as! CMAccelerometerHandler) 
+        
+        
+        
     }
     
     
@@ -134,15 +137,15 @@ extension GyroViewController: CLLocationManagerDelegate {
     
     
     ///手指移动调用
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch:UITouch in touches {
-            chongwuBtn.center = touch.locationInView(view)
+            chongwuBtn.center = touch.location(in: view)
         }
     }
     //手指抬起
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        UIView.animateWithDuration(1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 20, options: UIViewAnimationOptions.AllowAnimatedContent, animations: {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 20, options: UIViewAnimationOptions.allowAnimatedContent, animations: {
             self.chongwuBtn.center = CGPoint(x: ScreenW/2, y: ScreenH-100)
         }) { (_) in
             

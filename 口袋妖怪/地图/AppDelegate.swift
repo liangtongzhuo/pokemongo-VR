@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,BMKGeneralDelegate {
     var _mapManager: BMKMapManager?
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         // 要使用百度地图，请先启动BaiduMapManager
         _mapManager = BMKMapManager()
@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,BMKGeneralDelegate {
     }
 
     //MARK: - BMKGeneralDelegate
-    func onGetNetworkState(iError: Int32) {
+    func onGetNetworkState(_ iError: Int32) {
         if (0 == iError) {
             NSLog("联网成功");
         }
@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,BMKGeneralDelegate {
         }
     }
     
-    func onGetPermissionState(iError: Int32) {
+    func onGetPermissionState(_ iError: Int32) {
         if (0 == iError) {
             NSLog("授权成功");
         }

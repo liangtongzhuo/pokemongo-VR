@@ -32,8 +32,8 @@ class ViewController: UIViewController {
         
         
         btn = UIButton(frame: CGRect(x: 0, y: view.bounds.height-50, width: 100, height: 50))
-        btn.setTitle("切换界面", forState: UIControlState.Normal)
-        btn.addTarget(self, action: #selector(lick), forControlEvents: UIControlEvents.TouchUpInside)
+        btn.setTitle("切换界面", for: UIControlState())
+        btn.addTarget(self, action: #selector(lick), for: UIControlEvents.touchUpInside)
         
         view.addSubview(btn)
         
@@ -44,12 +44,12 @@ class ViewController: UIViewController {
     func lick(){
         
         if gyroViewController.view.alpha == 0 {
-           UIView.animateWithDuration(1, animations: { 
+           UIView.animate(withDuration: 1, animations: { 
             self.gyroViewController.view.alpha = 1
             self.mapViewController.view.alpha = 0
            })
         }else{
-            UIView.animateWithDuration(1, animations: {
+            UIView.animate(withDuration: 1, animations: {
                 self.gyroViewController.view.alpha = 0
                 self.mapViewController.view.alpha = 1
             })

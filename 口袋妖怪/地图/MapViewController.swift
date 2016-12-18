@@ -21,7 +21,7 @@ class MapViewController: UIViewController ,BMKMapViewDelegate ,BMKLocationServic
     func customMapStyle() {
         //设置自定义地图样式，会影响所有地图实例
         //注：必须在BMKMapView对象初始化之前调用
-        let path = NSBundle.mainBundle().pathForResource("custom_config_清新蓝", ofType: "")//个性化地图样式文件路径
+        let path = Bundle.main.path(forResource: "custom_config_清新蓝", ofType: "")//个性化地图样式文件路径
         BMKMapView.customMapStyle(path)
         BMKMapView.enableCustomMapStyle(false)//默认关闭
     }
@@ -30,8 +30,8 @@ class MapViewController: UIViewController ,BMKMapViewDelegate ,BMKLocationServic
         super.viewDidLoad()
         
         button = UIButton(frame: CGRect(x: view.bounds.width-50, y: view.bounds.height-50, width: 50, height: 50))
-        button.setTitle("定位", forState: UIControlState.Normal)
-        button.addTarget(self, action: #selector(click), forControlEvents: UIControlEvents.TouchUpInside)
+        button.setTitle("定位", for: UIControlState())
+        button.addTarget(self, action: #selector(click), for: UIControlEvents.touchUpInside)
         
         ///自定义设置
         customMapStyle()
@@ -41,7 +41,7 @@ class MapViewController: UIViewController ,BMKMapViewDelegate ,BMKLocationServic
         frame.size.height = frame.size.height+50//隐藏logo
         mapView = BMKMapView(frame: frame)
         mapView.showMapPoi = false//地图标注
-        mapView.buildingsEnabled = true//3d楼宇
+        mapView.isBuildingsEnabled = true//3d楼宇
         mapView.zoomLevel = 21//地图大小
         mapView.compassPosition = CGPoint(x: 300, y: 300)//隐藏指南针
         
@@ -66,7 +66,7 @@ class MapViewController: UIViewController ,BMKMapViewDelegate ,BMKLocationServic
     }
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         locationService.delegate = self
         mapView.delegate = self
@@ -89,7 +89,7 @@ class MapViewController: UIViewController ,BMKMapViewDelegate ,BMKLocationServic
      *用户方向更新后，会调用此函数
      *@param userLocation 新的用户位置
      */
-    func didUpdateUserHeading(userLocation: BMKUserLocation!) {
+    func didUpdateUserHeading(_ userLocation: BMKUserLocation!) {
         print("heading is \(userLocation.heading)")
         mapView.updateLocationData(userLocation)
     }
@@ -98,12 +98,12 @@ class MapViewController: UIViewController ,BMKMapViewDelegate ,BMKLocationServic
      *用户位置更新后，会调用此函数
      *@param userLocation 新的用户位置
      */
-    func didUpdateBMKUserLocation(userLocation: BMKUserLocation!) {
+    func didUpdate(_ userLocation: BMKUserLocation!) {
         print("didUpdateUserLocation lat:\(userLocation.location.coordinate.latitude) lon:\(userLocation.location.coordinate.longitude)")
         mapView.updateLocationData(userLocation)
     }
     
-    func didFailToLocateUserWithError(error: NSError!) {
+    func didFailToLocateUserWithError(_ error: Error!) {
         print(error)
     }
 }
