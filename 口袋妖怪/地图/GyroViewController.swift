@@ -111,8 +111,11 @@ extension GyroViewController: CLLocationManagerDelegate {
         mgr = CMMotionManager()
         ///获取加速度
         mgr.accelerometerUpdateInterval = 1/20
+        
+        
+        
         weak var weakSelf = self
-        mgr.startAccelerometerUpdates(to: OperationQueue.main, withHandler: { (cma:CMAccelerometerData?, error:NSError?) ->() in
+        mgr.startAccelerometerUpdates(to: OperationQueue.main, withHandler: { (cma:CMAccelerometerData?, error:Error?) in
             
             
             let y = UIScreen.main.bounds.height / 2 + (UIScreen.main.bounds.height-100) * CGFloat(cma!.acceleration.z)
@@ -126,7 +129,7 @@ extension GyroViewController: CLLocationManagerDelegate {
                 
             }
             
-        } as! CMAccelerometerHandler) 
+        } )
         
         
         
