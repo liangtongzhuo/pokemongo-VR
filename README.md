@@ -1,5 +1,5 @@
 # pokemongo-VR
-口袋妖怪 pokemongo－VR Swift3.0  Xcode8.1，并没有使用 Apple ARKit
+pokemongo－VR Swift3.0  Xcode8.1，No use Apple ARKit
 
 - baidu MapSDK
 - Compass API
