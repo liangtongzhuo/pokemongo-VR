@@ -26,7 +26,6 @@ pokemongo－VR Swift3.0  Xcode8.1，No use Apple ARKit
 4.X，Y都知道了， 图片的位置也就相应的知道了。 
 5.还集成了百度地图的SDK，定制了一下地图的颜色，把地图的文字都去掉了。
 
-##### 叙述不佳，不好意思。
-
+个人博客 http://liangtongzhuo.com
 
 
